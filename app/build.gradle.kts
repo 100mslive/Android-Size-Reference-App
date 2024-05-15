@@ -34,14 +34,14 @@ android {
     flavorDimensions += "version"
     productFlavors {
         // Sample apk with no 100ms libraries
-        create("base") {
+        create("0-without-sdk") {
             dimension = "version"
             applicationIdSuffix = ".base"
             versionNameSuffix = "-base"
         }
 
         // Including the core sdk libraries
-        create("a") {
+        create("01-android-sdk") {
             // Assigns this product flavor to the "version" flavor dimension.
             // If you are using only one dimension, this property is optional,
             // and the plugin automatically assigns all the module's flavors to
@@ -51,51 +51,51 @@ android {
             versionNameSuffix = "-core"
         }
         // Including the base sdk and video view libraries.
-        create("b") {
+        create("02-video-view") {
             dimension = "version"
             applicationIdSuffix = ".videoView"
             versionNameSuffix = "-videoView"
         }
         // Including the core sdk + virtual background
-        create("c") {
+        create("03-virtual-background") {
             dimension = "version"
             applicationIdSuffix = ".vb"
             versionNameSuffix = "-vb"
         }
 
-        create("d") {
+        create("04-video-filters") {
             dimension = "version"
             applicationIdSuffix = ".videoFilters"
             versionNameSuffix = "-videoFilters"
         }
 
         // Including the room kit with noise cancellation
-        create("e") {
+        create("05-noise-cancellation") {
             dimension = "version"
             applicationIdSuffix = ".sdk_nc"
             versionNameSuffix = "-sdk_nc"
         }
 
-        create("f") {
+        create("06-hls-player-stats") {
             dimension = "version"
             applicationIdSuffix = ".hls_player_stats"
             versionNameSuffix = "-hls_player_stats"
         }
 
-        create("g") {
+        create("07-hls-player") {
             dimension = "version"
             applicationIdSuffix = ".hls_player"
             versionNameSuffix = "-hls_player"
         }
 
         // Including the room kit
-        create("h") {
+        create("08-room-kit") {
             dimension = "version"
             applicationIdSuffix = ".roomkit"
             versionNameSuffix = "-roomkit"
         }
 
-        create("i") {
+        create("09-room-kit-with-every-library") {
             dimension = "version"
             applicationIdSuffix = ".all"
             versionNameSuffix = "-all"
@@ -129,34 +129,35 @@ dependencies {
     val hmsVersion = "2.9.55"
     val roomKitVersion = "1.2.11"
 
-    "aImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "01-android-sdkImplementation"("live.100ms:android-sdk:$hmsVersion")
 
-    "bImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "bImplementation"("live.100ms:video-view:$hmsVersion")
+    "02-video-viewImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "02-video-viewImplementation"("live.100ms:video-view:$hmsVersion")
 
-    "cImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "cImplementation"("live.100ms:virtual-background:$hmsVersion")
+    "03-virtual-backgroundImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "03-virtual-backgroundImplementation"("live.100ms:virtual-background:$hmsVersion")
 
-    "dImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "dImplementation"("live.100ms:video-filters:$hmsVersion")
+    "04-video-filtersImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "04-video-filtersImplementation"("live.100ms:video-filters:$hmsVersion")
 
-    "eImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "eImplementation"("live.100ms:hms-noise-cancellation-android:$hmsVersion")
+    "05-noise-cancellationImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "05-noise-cancellationImplementation"("live.100ms:hms-noise-cancellation-android:$hmsVersion")
 
-    "fImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "fImplementation"("live.100ms:hls-player-stats:$hmsVersion")
+    "06-hls-player-statsImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "06-hls-player-statsImplementation"("live.100ms:hls-player-stats:$hmsVersion")
 
-    "gImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "gImplementation"("live.100ms:hls-player:$hmsVersion")
+    "07-hls-playerImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "07-hls-playerImplementation"("live.100ms:hls-player:$hmsVersion")
 
-    "hImplementation"("live.100ms:room-kit:$roomKitVersion")
+    "08-room-kitImplementation"("live.100ms:room-kit:$roomKitVersion")
 
-    "iImplementation"("live.100ms:room-kit:$roomKitVersion")
-    "iImplementation"("live.100ms:video-view:$hmsVersion")
-    "iImplementation"("live.100ms:virtual-background:$hmsVersion")
-    "iImplementation"("live.100ms:video-filters:$hmsVersion")
-    "iImplementation"("live.100ms:hms-noise-cancellation-android:$hmsVersion")
-    "iImplementation"("live.100ms:hls-player-stats:$hmsVersion")
-    "iImplementation"("live.100ms:hls-player:$hmsVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:room-kit:$roomKitVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:video-view:$hmsVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:virtual-background:$hmsVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:video-filters:$hmsVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:hms-noise-cancellation-android:$hmsVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:hls-player-stats:$hmsVersion")
+    "09-room-kit-with-every-libraryImplementation"("live.100ms:hls-player:$hmsVersion")
 
 }
+
