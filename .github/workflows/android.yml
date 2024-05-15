@@ -25,4 +25,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleDebug
     - name: Print sizes
-      run: find . -name "*.apk" --exec ls -alh {} \;
+      run: find . -name "*.apk" -exec ls -alh {} \;
+    - name: Print names
+      run: echo "A: Base (no libraries)\nB: Video View\nC: Virtual Background\nD: Video Filters\nE: Noise Cancellation\nF: Hls Player Stats\nG: Hls Player\nH: Room Kit\nI: Room Kit with noise cancellation and all libraries"
