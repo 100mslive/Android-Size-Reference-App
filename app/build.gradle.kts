@@ -16,6 +16,17 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    splits {
+
+        // Configures multiple APKs based on screen density.
+        abi {
+
+            // Configures multiple APKs based on screen density.
+            isEnable = true
+            include("x86", "x86_64","armeabi-v7","arm64-v8a")
+            exclude("mips64","riscv64","armeabi","mips")
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
