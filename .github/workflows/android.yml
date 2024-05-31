@@ -34,4 +34,4 @@ jobs:
 
     - name: Print sizes
       working-directory: ./app/build/outputs/apk/
-      run: find . -name '*.apk' | while read line; do; ls -lh "$line" |  awk '{gsub(/\.\/app\/build\/outputs\/apk\//,"",$9);gsub(/.*release\/app-[0-9][0-9]-/,"",$9);gsub(/-release-unsigned\.apk/,"",$9);gsub(/0-without-sdk\/release\/app-0-/,"",$9);print}' | awk '{print $5, $9}' >> $GITHUB_STEP_SUMMARY;done
+      run: find . -name '*.apk' | while read line; do; ls -lh "$line" |  awk '{gsub(/\.\/app\/build\/outputs\/apk\//,"",$9);gsub(/.*release\/app-[0-9][0-9]-/,"",$9);gsub(/-release-unsigned\.apk/,"",$9);gsub(/0-without-sdk\/release\/app-0-/,"",$9);print}' | awk '{print $5, $9}' >> $GITHUB_STEP_SUMMARY ; done
