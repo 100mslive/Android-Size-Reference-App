@@ -22,8 +22,16 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    - name: Decrypt the keystore
+      run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYSTORE_DECRYPT_PASSWORD }}" --output sample-key.keystore sample-key.keystore.gpg
+
+    - name: Decrypt the keystore properties
+      run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYSTORE_PROPERTIES_DECRYPT_PASSWORD }}" --output sample-keystore.properties sample-keystore.properties.gpg
+
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleRelease
+
     - name: Print sizes
       working-directory: ./app/build/outputs/apk/
       run: find . -name "*.apk" -exec ls -lh {} \; | sort -g
