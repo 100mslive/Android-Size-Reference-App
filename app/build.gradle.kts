@@ -158,8 +158,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    val hmsVersion = "2.9.55"
-    val roomKitVersion = "1.2.11"
+    val hmsVersion = "2.9.59"
+    val roomKitVersion = "1.2.13"
 
     "01-android-sdkImplementation"("live.100ms:android-sdk:$hmsVersion")
 
