@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+sample-key.keystore
+sample-keystore.properties
