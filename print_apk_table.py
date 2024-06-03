@@ -16,11 +16,25 @@ class TableSection:
 	armeabiv7a = 0
 	arm64v8a = 0
 
+# Holder for all arch names and sizes for each library
 archMaps = dict()
+
+# The size of the apk without any 100ms libraries
+baseSize = -999999999
 
 for line in text.splitlines():
 	l = line.split()
-	l[0] = int(l[0]) - 2507294
+	l[0] = int(l[0])
+	name = re.split('-(armeabi-v7a$|x86_64$|x86$|arm64-v8a$)',l[1])
+	architecture = name[1]
+	libraryName = name[0].replace("-"," ").title()
+	if(libraryName == "Without Sdk"):
+		baseSize = l[0]
+		break
+
+for line in text.splitlines():
+	l = line.split()
+	l[0] = int(l[0]) - baseSize
 	name = re.split('-(armeabi-v7a$|x86_64$|x86$|arm64-v8a$)',l[1])
 	architecture = name[1]
 	libraryName = name[0].replace("-"," ").title()
@@ -29,7 +43,7 @@ for line in text.splitlines():
 
 for line in text.splitlines():
 	l = line.split()
-	l[0] = int(l[0]) - 2507294
+	l[0] = int(l[0]) - baseSize
 	name = re.split('-(armeabi-v7a$|x86_64$|x86$|arm64-v8a$)',l[1])
 	architecture = name[1]
 	libraryName = name[0].replace("-"," ").title()
