@@ -58,7 +58,7 @@ jobs:
         name: all-apks
 
     - name: List files
-        run: find .
+      run: find .
 
     - name: List file sizes
       shell: bash
