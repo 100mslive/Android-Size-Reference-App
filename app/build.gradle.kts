@@ -4,6 +4,7 @@ import java.util.*
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    signing
 }
 android {
     signingConfigs {
@@ -72,8 +73,15 @@ android {
             versionNameSuffix = "-base"
         }
 
+        // Including the room kit
+        create("01-room-kit") {
+            dimension = "version"
+            applicationIdSuffix = ".roomkit"
+            versionNameSuffix = "-roomkit"
+        }
+
         // Including the core sdk libraries
-        create("01-android-sdk") {
+        create("02-android-sdk") {
             // Assigns this product flavor to the "version" flavor dimension.
             // If you are using only one dimension, this property is optional,
             // and the plugin automatically assigns all the module's flavors to
@@ -83,22 +91,16 @@ android {
             versionNameSuffix = "-core"
         }
         // Including the base sdk and video view libraries.
-        create("02-video-view") {
+        create("03-video-view") {
             dimension = "version"
             applicationIdSuffix = ".videoView"
             versionNameSuffix = "-videoView"
         }
         // Including the core sdk + virtual background
-        create("03-virtual-background") {
+        create("04-virtual-background") {
             dimension = "version"
             applicationIdSuffix = ".vb"
             versionNameSuffix = "-vb"
-        }
-
-        create("04-video-filters") {
-            dimension = "version"
-            applicationIdSuffix = ".videoFilters"
-            versionNameSuffix = "-videoFilters"
         }
 
         // Including the room kit with noise cancellation
@@ -108,10 +110,10 @@ android {
             versionNameSuffix = "-sdk_nc"
         }
 
-        create("06-hls-player-stats") {
+        create("06-video-filters") {
             dimension = "version"
-            applicationIdSuffix = ".hls_player_stats"
-            versionNameSuffix = "-hls_player_stats"
+            applicationIdSuffix = ".videoFilters"
+            versionNameSuffix = "-videoFilters"
         }
 
         create("07-hls-player") {
@@ -120,17 +122,10 @@ android {
             versionNameSuffix = "-hls_player"
         }
 
-        // Including the room kit
-        create("08-room-kit") {
+        create("08-hls-player-stats") {
             dimension = "version"
-            applicationIdSuffix = ".roomkit"
-            versionNameSuffix = "-roomkit"
-        }
-
-        create("09-room-kit-with-every-library") {
-            dimension = "version"
-            applicationIdSuffix = ".all"
-            versionNameSuffix = "-all"
+            applicationIdSuffix = ".hls_player_stats"
+            versionNameSuffix = "-hls_player_stats"
         }
 
     }
@@ -160,36 +155,28 @@ dependencies {
 
     val hmsVersion = "2.9.59"
     val roomKitVersion = "1.2.13"
+    
+    "01-room-kitImplementation"("live.100ms:room-kit:$roomKitVersion")
+    
+    "02-android-sdkImplementation"("live.100ms:android-sdk:$hmsVersion")
 
-    "01-android-sdkImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "03-video-viewImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "03-video-viewImplementation"("live.100ms:video-view:$hmsVersion")
 
-    "02-video-viewImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "02-video-viewImplementation"("live.100ms:video-view:$hmsVersion")
-
-    "03-virtual-backgroundImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "03-virtual-backgroundImplementation"("live.100ms:virtual-background:$hmsVersion")
-
-    "04-video-filtersImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "04-video-filtersImplementation"("live.100ms:video-filters:$hmsVersion")
-
+    "04-virtual-backgroundImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "04-virtual-backgroundImplementation"("live.100ms:virtual-background:$hmsVersion")
+    
     "05-noise-cancellationImplementation"("live.100ms:android-sdk:$hmsVersion")
     "05-noise-cancellationImplementation"("live.100ms:hms-noise-cancellation-android:$hmsVersion")
 
-    "06-hls-player-statsImplementation"("live.100ms:android-sdk:$hmsVersion")
-    "06-hls-player-statsImplementation"("live.100ms:hls-player-stats:$hmsVersion")
+    "06-video-filtersImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "06-video-filtersImplementation"("live.100ms:video-filters:$hmsVersion")
 
     "07-hls-playerImplementation"("live.100ms:android-sdk:$hmsVersion")
     "07-hls-playerImplementation"("live.100ms:hls-player:$hmsVersion")
 
-    "08-room-kitImplementation"("live.100ms:room-kit:$roomKitVersion")
-
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:room-kit:$roomKitVersion")
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:video-view:$hmsVersion")
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:virtual-background:$hmsVersion")
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:video-filters:$hmsVersion")
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:hms-noise-cancellation-android:$hmsVersion")
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:hls-player-stats:$hmsVersion")
-    "09-room-kit-with-every-libraryImplementation"("live.100ms:hls-player:$hmsVersion")
-
+    "08-hls-player-statsImplementation"("live.100ms:android-sdk:$hmsVersion")
+    "08-hls-player-statsImplementation"("live.100ms:hls-player-stats:$hmsVersion")
+    
 }
 

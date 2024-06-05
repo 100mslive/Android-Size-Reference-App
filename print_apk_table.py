@@ -22,6 +22,7 @@ archMaps = dict()
 # The size of the apk without any 100ms libraries
 baseSdkName = "Android Sdk"
 baseApkName = "Without Sdk"
+roomkitName = "Room Kit"
 sizeInfo = text.splitlines()
 sizeInfo.sort()
 
@@ -33,7 +34,8 @@ sizeInfo = map(removeNumber, sizeInfo)
 def subtractBy(libraryName, architecture):
 	if(libraryName == baseApkName):
 		return 0
-	elif(libraryName == baseSdkName):
+	elif(libraryName == baseSdkName or libraryName == roomkitName):
+		# For both the Core SDK and Room Kit, don't subtract the SDK size.
 		return archMaps[baseApkName].x86
 	elif architecture == "x86":
 		return archMaps[baseSdkName].x86
