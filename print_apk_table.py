@@ -2,7 +2,7 @@ import re
 import subprocess
 
 command = """find . -name '*.apk' | while read line; do
-     ls -l "$line" |  awk '{gsub(/\\.\\/app\\/build\\/outputs\\/apk\\//,"",$9);gsub(/.*release\\/app-[0-9]/,"",$9);gsub(/-release-unsigned\\.apk/,"",$9);print}' | awk '{print $9, $5}'
+     ls -l "$line" |  awk '{gsub(/\\.\\/app\\/build\\/outputs\\/apk\\//,"",$9);gsub(/.*release\\/app-[0-9]/,"",$9);gsub(/-release\\.apk/,"",$9);print}' | awk '{print $9, $5}'
 done"""
 
 ret = subprocess.run(command, capture_output=True, shell=True)

@@ -4,7 +4,6 @@ import java.util.*
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    signing
 }
 android {
     signingConfigs {
@@ -53,6 +52,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
 
         getByName("debug") {
