@@ -9,7 +9,7 @@ android {
     signingConfigs {
         register("release") {
 
-            val keystorePropertiesFile = file("../sample-keystore.properties")
+            val keystorePropertiesFile = file("sample-keystore.properties")
 
             if (!keystorePropertiesFile.exists()) {
                 logger.warn("Release builds may not work: signing config not found.")
