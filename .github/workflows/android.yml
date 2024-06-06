@@ -24,7 +24,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Decrypt the keystore
-      run: gpg --quiet --batch --yes --decrypt --passphrase='${{ secrets.KEYSTORE_DECRYPT_PASSWORD }}' --output sample-key.keystore sample-key.keystore.gpg
+      run: gpg --quiet --batch --yes --decrypt --passphrase='${{ secrets.KEYSTORE_DECRYPT_PASSWORD }}' --output app/sample-key.keystore sample-key.keystore.gpg
 
     - name: Decrypt the keystore properties
       run: gpg --quiet --batch --yes --decrypt --passphrase='${{ secrets.KEYSTORE_PROPERTIES_DECRYPT_PASSWORD }}' --output app/sample-keystore.properties sample-keystore.properties.gpg
