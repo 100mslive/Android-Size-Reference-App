@@ -79,16 +79,11 @@ def sizeof_fmt(num, suffix="B"):
     return f"{num:.1f}Yi{suffix}"
 
 
+print("|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x86_64")
+print("| -------------------|--------------|----------------|-----------|-------|")
+
 for a in archMaps:
 	if(a == "Without Sdk"):
 		continue
 	s = archMaps[a]
-	print("|  Phone Architecture     	|  "+ s.name + "   |")
-	print("| --------------------------------- | ---------  |")
-	print("| (armeabi-v7)                      | **{}**  |".format(sizeof_fmt((s.armeabiv7a - subtractBy(s.name, "armeabi-v7a")))))
-	print("| (arm64-v8a) **(most common one)** | **{}**  |".format(sizeof_fmt((s.arm64v8a - subtractBy(s.name, "arm64-v8a")))))
-	print("| (x86_64)                          | **{}**  |".format(sizeof_fmt((s.x8664 - subtractBy(s.name, "x86_64")))))
-	print("| (x86)                             | **{}**  |".format(sizeof_fmt((s.x86 - subtractBy(s.name, "x86")))))
-	print()
-	print()
-
+	print(f"| {s.name} 	| **{sizeof_fmt((s.arm64v8a - subtractBy(s.name, "arm64-v8a")))}**	|	**{sizeof_fmt((s.armeabiv7a - subtractBy(s.name, "armeabi-v7a")))}**  	|	**{sizeof_fmt((s.x86 - subtractBy(s.name, "x86")))}**	| 	**{sizeof_fmt((s.x8664 - subtractBy(s.name, "x86_64")))}** 	|")
