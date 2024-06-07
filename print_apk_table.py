@@ -1,5 +1,33 @@
 import re
 import subprocess
+import sys
+
+prefixedArticle = """---
+title: SDK Size Impact
+nav: 3.4
+---
+Each library has its own size impact that can vary been ABIs (x86, arm64-v8a etc), the table below lists them all.
+
+You can take a look at the reference project [here](https://github.com/100mslive/Android-Size-Reference-App/)
+
+These are accuarate for sdk version `2.9.59` and room-kit version `1.2.13`.
+
+## Increase in Android APK size:
+
+"""
+
+roomKitHeader = """
+### Room Kit
+"""
+
+roomKitFooter = """
+The `room-kit` module already includes the following libraries:
+- `android-sdk`
+- `video-view`
+- `hls-player`
+- `video-filters`
+
+"""
 
 command = """find . -name '*.apk' | while read line; do
      ls -l "$line" |  awk '{gsub(/\\.\\/app\\/build\\/outputs\\/apk\\//,"",$9);gsub(/.*release\\/app-[0-9]/,"",$9);gsub(/-release\\.apk/,"",$9);print}' | awk '{print $9, $5}'
@@ -48,29 +76,6 @@ def subtractBy(libraryName, architecture):
 	else:
 		print("Missing arch {} is size {}".format(architecture, sizes))
 
-
-for line in sizeInfo:
-	l = line.split()
-	l[1] = int(l[1])
-	name = re.split('-(armeabi-v7a$|x86_64$|x86$|arm64-v8a$)',l[0])
-	architecture = name[1]
-	libraryName = name[0].replace("-"," ").title()
-	sizes = l[1]
-	if libraryName not in archMaps:
-		archMaps[libraryName] = TableSection()
-		archMaps[libraryName].name = libraryName
-
-	if architecture == "x86":
-		archMaps[libraryName].x86 = sizes
-	elif architecture == "x86_64":
-		archMaps[libraryName].x8664 = sizes
-	elif architecture == "armeabi-v7a":
-		archMaps[libraryName].armeabiv7a = sizes
-	elif architecture == "arm64-v8a":
-		archMaps[libraryName].arm64v8a = sizes
-	else:
-		print("Missing arch {} is size {}".format(architecture, sizes))
-
 def sizeof_fmt(num, suffix="B"):
     for unit in ("", "K", "M", "G", "T", "P", "E", "Z"):
         if abs(num) < 1024.0:
@@ -78,12 +83,66 @@ def sizeof_fmt(num, suffix="B"):
         num /= 1024.0
     return f"{num:.1f}Yi{suffix}"
 
+def populateArchTableData():
+	for line in sizeInfo:
+		l = line.split()
+		l[1] = int(l[1])
+		name = re.split('-(armeabi-v7a$|x86_64$|x86$|arm64-v8a$)',l[0])
+		architecture = name[1]
+		libraryName = name[0].replace("-"," ").title()
+		sizes = l[1]
+		if libraryName not in archMaps:
+			archMaps[libraryName] = TableSection()
+			archMaps[libraryName].name = libraryName
 
-print("|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x86_64")
-print("| -------------------|--------------|----------------|-----------|-------|")
+		if architecture == "x86":
+			archMaps[libraryName].x86 = sizes
+		elif architecture == "x86_64":
+			archMaps[libraryName].x8664 = sizes
+		elif architecture == "armeabi-v7a":
+			archMaps[libraryName].armeabiv7a = sizes
+		elif architecture == "arm64-v8a":
+			archMaps[libraryName].arm64v8a = sizes
+		else:
+			print("Missing arch {} is size {}".format(architecture, sizes))
 
-for a in archMaps:
-	if(a == "Without Sdk"):
-		continue
+
+archTableHeader = """|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x86_64"
+"| -------------------|--------------|----------------|-----------|-------|"
+"""
+
+def getSingleArchData(a):
 	s = archMaps[a]
-	print(f"| {s.name} 	| **{sizeof_fmt(s.arm64v8a - subtractBy(s.name, "arm64-v8a"))}**	|	**{sizeof_fmt(s.armeabiv7a - subtractBy(s.name, "armeabi-v7a"))}**  	|	**{sizeof_fmt(s.x86 - subtractBy(s.name, "x86"))}**	| 	**{sizeof_fmt(s.x8664 - subtractBy(s.name, "x86_64"))}** 	|")
+	return f"| {s.name} 	| **{sizeof_fmt(s.arm64v8a - subtractBy(s.name, "arm64-v8a"))}**	|	**{sizeof_fmt(s.armeabiv7a - subtractBy(s.name, "armeabi-v7a"))}**  	|	**{sizeof_fmt(s.x86 - subtractBy(s.name, "x86"))}**	| 	**{sizeof_fmt(s.x8664 - subtractBy(s.name, "x86_64"))}** 	|"
+
+def writeDataToFile(data, filePath):
+	with open(filePath, "w") as doc:
+		# Writing data to a file
+		doc.writelines(data)	
+
+def getArticleString():
+	article = [prefixedArticle, archTableHeader,]
+	# Print everything except room kit and the base
+	for a in archMaps:
+		if(a == "Without Sdk" or a == "Room Kit"):
+			continue
+		s = archMaps[a]
+		article.append(getSingleArchData(a))
+	article.extend([roomKitHeader,archTableHeader,getSingleArchData("Room Kit"),roomKitFooter])
+	return "\n".join(article)
+
+def printEntireArchTable():
+	print(archTableHeader)
+	for a in archMaps:
+		if(a == "Without Sdk"):
+			continue
+		s = archMaps[a]
+		print(getSingleArchData(a))
+
+
+populateArchTableData()
+if(len(sys.argv) == 1):
+	printEntireArchTable()
+else:
+	print(f"Writing article to path: {sys.argv[1]}")
+	writeDataToFile(getArticleString(), sys.argv[1])
