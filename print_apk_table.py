@@ -114,7 +114,11 @@ archTableHeader = """|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x8
 
 def getSingleArchData(a):
 	s = archMaps[a]
-	return f"| {s.name} 	| **{sizeof_fmt(s.arm64v8a - subtractBy(s.name, "arm64-v8a"))}**	|	**{sizeof_fmt(s.armeabiv7a - subtractBy(s.name, "armeabi-v7a"))}**  	|	**{sizeof_fmt(s.x86 - subtractBy(s.name, "x86"))}**	| 	**{sizeof_fmt(s.x8664 - subtractBy(s.name, "x86_64"))}** 	|"
+	v8a = sizeof_fmt(s.arm64v8a - subtractBy(s.name, "arm64-v8a"))
+	v7a = sizeof_fmt(s.armeabiv7a - subtractBy(s.name, "armeabi-v7a"))
+	x86 = sizeof_fmt(s.x86 - subtractBy(s.name, "x86"))
+	x86_64 = sizeof_fmt(s.x8664 - subtractBy(s.name, "x86_64"))
+	return f"| {s.name} 	| **{v8a}**	|	**{v7a}**  	|	**{x86}**	| 	**{x86_64}** 	|"
 
 def writeDataToFile(data, filePath):
 	with open(filePath, "w") as doc:
