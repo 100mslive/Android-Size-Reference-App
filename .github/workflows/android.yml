@@ -29,9 +29,18 @@ jobs:
     - name: Decrypt the keystore properties
       run: gpg --quiet --batch --yes --decrypt --passphrase='${{ secrets.KEYSTORE_PROPERTIES_DECRYPT_PASSWORD }}' --output app/sample-keystore.properties sample-keystore.properties.gpg
 
+    - name: Collect versions from gradle.properties into env
+      run: echo "PYTHON_VERSION_ARGS=$(./gradlew -q printPythonScriptArgs)" >> $GITHUB_ENV
+
+    - name: Check Create table
+      run: |
+        ./gradlew -q printPythonScriptArgs >> 
+        ./print_apk_table.py "$PYTHON_VERSION_ARGS" >> $GITHUB_STEP_SUMMARY
+
     - name: Build with Gradle
       run: ./gradlew assembleRelease
 
     - name: Create Table
       run: |
-        ./print_apk_table.py >> $GITHUB_STEP_SUMMARY
+        ./gradlew -q printPythonScriptArgs >> 
+        ./print_apk_table.py "$PYTHON_VERSION_ARGS" >> $GITHUB_STEP_SUMMARY
