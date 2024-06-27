@@ -39,7 +39,6 @@ jobs:
 
     - name: Create table for github summary
       run: |
-        ./gradlew -q printPythonScriptArgs >> $GITHUB_ENV
         ./print_apk_table.py >> $GITHUB_STEP_SUMMARY
 
     - name: Clone Docs
@@ -48,8 +47,7 @@ jobs:
 
     - name: Write table to file
       run: |
-        ./gradlew -q printPythonScriptArgs >> $GITHUB_ENV
-        ./print_apk_table.py 100ms-docs/docs/android/v2/how-to-guides/install-the-sdk/size.mdx "$PYTHON_VERSION_ARGS"
+        ./print_apk_table.py 100ms-docs/docs/android/v2/how-to-guides/install-the-sdk/size.mdx $(./gradlew -q printPythonScriptArgs)
 
     - name: Commit the docs
       working-directory: 100ms-docs
@@ -58,7 +56,7 @@ jobs:
         git config --global user.email "aniket.kadam@100ms.live"
         git checkout -b $BRANCH_NAME
         git add ./docs/android/v2/how-to-guides/install-the-sdk/size.mdx
-        git commit -m "Adding size docs for versions $PYTHON_VERSION_ARGS"
+        git commit -m "Adding size docs for versions $(./gradlew -q printPythonScriptArgs)"
 
     - name: Push up the docs branch
       run: git push --set-upstream origin $BRANCH_NAME
