@@ -43,7 +43,7 @@ jobs:
 
     - name: Clone Docs
       run: |
-        git clone "https://${{ secrets.ANDROID_SDK_CLONE_TOKEN }}@github.com/100mslive/100ms-docs.git" .
+        git clone "https://${{ secrets.ANDROID_SDK_CLONE_TOKEN }}@github.com/100mslive/100ms-docs.git"
 
     - name: Write table to file
       run: |
