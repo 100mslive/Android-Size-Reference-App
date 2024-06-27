@@ -11,10 +11,9 @@ Each library has its own size impact that can vary been ABIs (x86, arm64-v8a etc
 
 You can take a look at the reference project [here](https://github.com/100mslive/Android-Size-Reference-App/)
 
-These are accuarate for sdk version `HMS_SDK_VERSION_PLACEHOLDER` and room-kit version `HMS_ROOMKIT_VERSION_PLACEHOLDER`.
+These are accurate for sdk version `HMS_SDK_VERSION_PLACEHOLDER` and room-kit version `HMS_ROOMKIT_VERSION_PLACEHOLDER`.
 
 ## Increase in Android APK size:
-
 """
 
 roomKitHeader = """
