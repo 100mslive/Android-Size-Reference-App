@@ -182,3 +182,7 @@ dependencies {
 tasks.register("printPythonScriptArgs") {
     print("$hmsVersion $roomKitVersion")
 }
+
+    tasks.register("branchSuffixForDocsPR") {
+    print("$hmsVersion-$roomKitVersion")
+}

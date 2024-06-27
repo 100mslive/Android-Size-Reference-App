@@ -10,8 +10,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: "size-docs-for-android-sdk-${{github.ref_name}}"
 
     steps:
     - uses: actions/checkout@v4
@@ -31,8 +29,8 @@ jobs:
     - name: Decrypt the keystore properties
       run: gpg --quiet --batch --yes --decrypt --passphrase='${{ secrets.KEYSTORE_PROPERTIES_DECRYPT_PASSWORD }}' --output app/sample-keystore.properties sample-keystore.properties.gpg
 
-    - name: Collect versions from gradle.properties into env
-      run: echo "PYTHON_VERSION_ARGS=$(./gradlew -q printPythonScriptArgs)" >> $GITHUB_ENV
+    - name: Collect Branch Name from gradle.properties into env
+      run: echo "BRANCH_COMPLETE_NAME=size-docs-for-android-sdk-$(./gradlew -q branchSuffixForDocsPR)" >> $GITHUB_ENV
 
     - name: Build with Gradle
       run: ./gradlew assembleRelease
@@ -54,15 +52,15 @@ jobs:
       run: |
         git config --global user.name "Aniket Kadam"
         git config --global user.email "aniket.kadam@100ms.live"
-        git checkout -b $BRANCH_NAME
+        git checkout -b $BRANCH_COMPLETE_NAME
         git add ./docs/android/v2/how-to-guides/install-the-sdk/size.mdx
         git commit -m "Adding size docs for versions $(./gradlew -q printPythonScriptArgs)"
 
     - name: Push up the docs branch
       working-directory: 100ms-docs
-      run: git push --set-upstream origin $BRANCH_NAME
+      run: git push --set-upstream origin $BRANCH_COMPLETE_NAME
 
     - name: Open a PR
       working-directory: 100ms-docs
       run: |
-        curl -m 120 -XPOST -H 'accept: application/vnd.github+json' -H "Authorization: Bearer ${{ secrets.ANDROID_SDK_CLONE_TOKEN }}" -H 'X-GitHub-Api-Version: 2022-11-28' -d '{"title":"Android API reference docs PR","body":"api reference docs update", "base":"qa","head":"'$BRANCH_NAME'"}' 'https://api.github.com/repos/100mslive/100ms-docs/pulls'
+        curl -m 120 -XPOST -H 'accept: application/vnd.github+json' -H "Authorization: Bearer ${{ secrets.ANDROID_SDK_CLONE_TOKEN }}" -H 'X-GitHub-Api-Version: 2022-11-28' -d '{"title":"Size docs for android","body":"api reference docs update", "base":"qa","head":"'$BRANCH_COMPLETE_NAME'"}' 'https://api.github.com/repos/100mslive/100ms-docs/pulls'
