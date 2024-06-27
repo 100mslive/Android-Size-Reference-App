@@ -180,5 +180,5 @@ dependencies {
 }
 
 tasks.register("printPythonScriptArgs") {
-    println("$hmsVersion $roomKitVersion")
+    print("$hmsVersion $roomKitVersion")
 }
