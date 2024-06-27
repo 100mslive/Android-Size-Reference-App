@@ -1,5 +1,7 @@
 import java.io.FileInputStream
 import java.util.*
+val hmsVersion: String by project
+val roomKitVersion: String by project
 
 plugins {
     alias(libs.plugins.android.application)
@@ -153,9 +155,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    val hmsVersion: String by project
-    val roomKitVersion: String by project
-    
     "01-room-kitImplementation"("live.100ms:room-kit:$roomKitVersion")
     
     "02-android-sdkImplementation"("live.100ms:android-sdk:$hmsVersion")
@@ -180,3 +179,6 @@ dependencies {
     
 }
 
+tasks.register("printPythonScriptArgs") {
+    println("$hmsVersion $roomKitVersion")
+}

@@ -15,7 +15,7 @@ These are accuarate for sdk version `HMS_SDK_VERSION_PLACEHOLDER` and room-kit v
 
 ## Increase in Android APK size:
 
-"""
+""".replace("HMS_SDK_VERSION_PLACEHOLDER", )
 
 roomKitHeader = """
 ### Room Kit
@@ -148,6 +148,8 @@ def printEntireArchTable():
 populateArchTableData()
 if(len(sys.argv) == 1):
 	printEntireArchTable()
-else:
-	print(f"Writing article for version {sys.argv[2]} to path: {sys.argv[1]}")
+else if(len(sys.argv) == 3):
+	print(f"Writing article for sdk: version {sys.argv[2]}  app: version {sys.argv[3]} to path: {sys.argv[1]}")
 	writeDataToFile(getArticleString(sys.argv[2]), sys.argv[1])
+else:
+    print("no valid args provided, expected none or sdk and app version")
