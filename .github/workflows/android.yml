@@ -34,4 +34,4 @@ jobs:
 
     - name: Create Table
       run: |
-        python print_apk_table.py >> $GITHUB_STEP_SUMMARY
+        ./print_apk_table.py >> $GITHUB_STEP_SUMMARY

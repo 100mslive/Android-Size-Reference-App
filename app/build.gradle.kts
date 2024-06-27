@@ -153,8 +153,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    val hmsVersion = "2.9.59"
-    val roomKitVersion = "1.2.13"
+    val hmsVersion: String by project
+    val roomKitVersion: String by project
     
     "01-room-kitImplementation"("live.100ms:room-kit:$roomKitVersion")
     
