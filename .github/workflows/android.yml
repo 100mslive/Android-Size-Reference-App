@@ -34,7 +34,7 @@ jobs:
 
     - name: Check Create table
       run: |
-        ./gradlew -q printPythonScriptArgs >> 
+        ./gradlew -q printPythonScriptArgs >> $GITHUB_ENV
         ./print_apk_table.py "$PYTHON_VERSION_ARGS" >> $GITHUB_STEP_SUMMARY
 
     - name: Build with Gradle
@@ -42,5 +42,5 @@ jobs:
 
     - name: Create Table
       run: |
-        ./gradlew -q printPythonScriptArgs >> 
+        ./gradlew -q printPythonScriptArgs >> $GITHUB_ENV
         ./print_apk_table.py "$PYTHON_VERSION_ARGS" >> $GITHUB_STEP_SUMMARY
