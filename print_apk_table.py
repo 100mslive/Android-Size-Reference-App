@@ -15,7 +15,7 @@ These are accuarate for sdk version `HMS_SDK_VERSION_PLACEHOLDER` and room-kit v
 
 ## Increase in Android APK size:
 
-""".replace("HMS_SDK_VERSION_PLACEHOLDER", )
+"""
 
 roomKitHeader = """
 ### Room Kit
@@ -125,8 +125,8 @@ def writeDataToFile(data, filePath):
 		# Writing data to a file
 		doc.writelines(data)	
 
-def getArticleString(version):
-	article = [prefixedArticle, archTableHeader,]
+def getArticleString(sdkVersion, appVersion):
+	article = [prefixedArticle.replace("HMS_SDK_VERSION_PLACEHOLDER", sdkVersion).replace("HMS_ROOMKIT_VERSION_PLACEHOLDER",appVersion), archTableHeader]
 	# Print everything except room kit and the base
 	for a in archMaps:
 		if(a == "Without Sdk" or a == "Room Kit"):
@@ -144,12 +144,15 @@ def printEntireArchTable():
 		s = archMaps[a]
 		print(getSingleArchData(a))
 
-
+print(sys.argv)
 populateArchTableData()
 if(len(sys.argv) == 1):
 	printEntireArchTable()
-elif(len(sys.argv) == 3):
-	print(f"Writing article for sdk: version {sys.argv[2]}  app: version {sys.argv[3]} to path: {sys.argv[1]}")
-	writeDataToFile(getArticleString(sys.argv[2]), sys.argv[1])
+elif(len(sys.argv) == 4):
+    writeFilePath = sys.argv[1]
+    sdkVersion = sys.argv[2]
+    appVersion = sys.argv[3]
+    print(f"Writing article for sdk: version {sdkVersion}  app: version {appVersion} to path: {writeFilePath}")
+    writeDataToFile(getArticleString(sdkVersion, appVersion), writeFilePath)
 else:
     print("no valid args provided, expected none or sdk and app version")
