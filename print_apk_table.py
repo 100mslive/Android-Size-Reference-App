@@ -148,7 +148,7 @@ def printEntireArchTable():
 populateArchTableData()
 if(len(sys.argv) == 1):
 	printEntireArchTable()
-else if(len(sys.argv) == 3):
+elif(len(sys.argv) == 3):
 	print(f"Writing article for sdk: version {sys.argv[2]}  app: version {sys.argv[3]} to path: {sys.argv[1]}")
 	writeDataToFile(getArticleString(sys.argv[2]), sys.argv[1])
 else:
