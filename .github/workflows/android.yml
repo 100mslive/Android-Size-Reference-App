@@ -35,32 +35,12 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleRelease
 
-    - name: Create table for github summary
-      run: |
-        ./print_apk_table.py >> $GITHUB_STEP_SUMMARY
+    # - name: Check file size 
+    #   run: zipinfo app/build/outputs/apk/02-android-sdk/release/
 
-    - name: Clone Docs
-      run: |
-        git clone "https://${{ secrets.ANDROID_SDK_CLONE_TOKEN }}@github.com/100mslive/100ms-docs.git"
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
+      with:
+        name: apks
+        path: app/build/outputs/apk/02-android-sdk/release/*
 
-    - name: Write table to file
-      run: |
-        ./print_apk_table.py 100ms-docs/docs/android/v2/how-to-guides/install-the-sdk/size.mdx $(./gradlew -q printPythonScriptArgs)
-
-    - name: Commit the docs
-      working-directory: 100ms-docs
-      run: |
-        git config --global user.name "Aniket Kadam"
-        git config --global user.email "aniket.kadam@100ms.live"
-        git checkout -b $BRANCH_COMPLETE_NAME
-        git add ./docs/android/v2/how-to-guides/install-the-sdk/size.mdx
-        git commit -m "Adding size docs for versions $(./gradlew -q printPythonScriptArgs)"
-
-    - name: Push up the docs branch
-      working-directory: 100ms-docs
-      run: git push --set-upstream origin $BRANCH_COMPLETE_NAME
-
-    - name: Open a PR
-      working-directory: 100ms-docs
-      run: |
-        curl -m 120 -XPOST -H 'accept: application/vnd.github+json' -H "Authorization: Bearer ${{ secrets.ANDROID_SDK_CLONE_TOKEN }}" -H 'X-GitHub-Api-Version: 2022-11-28' -d '{"title":"Size docs for android","body":"api reference docs update", "base":"qa","head":"'$BRANCH_COMPLETE_NAME'"}' 'https://api.github.com/repos/100mslive/100ms-docs/pulls'
