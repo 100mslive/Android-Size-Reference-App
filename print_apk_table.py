@@ -107,8 +107,8 @@ def populateArchTableData():
 			print("Missing arch {} is size {}".format(architecture, sizes))
 
 
-archTableHeader = """|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x86_64"
-"| -------------------|--------------|----------------|-----------|-------|"
+archTableHeader = """|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x86_64 |
+| -------------------|--------------|----------------|-----------|-------|
 """
 
 def getSingleArchData(a):
