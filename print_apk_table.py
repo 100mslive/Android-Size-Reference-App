@@ -108,8 +108,7 @@ def populateArchTableData():
 
 
 archTableHeader = """|  Module Name     	|  arm64-v8a   |	armeabi-v7	|	x86		| x86_64 |
-| -------------------|--------------|----------------|-----------|-------|
-"""
+| -------------------|--------------|----------------|-----------|-------|"""
 
 def getSingleArchData(a):
 	s = archMaps[a]
